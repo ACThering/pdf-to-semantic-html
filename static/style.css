@@ -1,0 +1,12 @@
+* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; line-height: 1.6; margin: 0; }
+.container { max-width: 56rem; margin: 2rem auto; padding: 0 1rem; }
+h1, h2, h3 { line-height: 1.25; }
+label { display:block; margin:.5rem 0 .25rem; }
+input[type="file"] { display:block; margin-bottom:1rem; }
+button { padding:.6rem 1rem; cursor:pointer; }
+figure { margin: 1rem 0; }
+figcaption { font-size: .9rem; color: #333; }
+.skip-link { position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden; }
+.skip-link:focus { position:static; width:auto; height:auto; padding:.5rem; background:#eee; }
+.hint { color:#333; font-size:.95rem; }

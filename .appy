@@ -1,0 +1,54 @@
+from flask import Flask, render_template_string, request
+from converter import convert_pdf_to_accessible_html
+import os, uuid
+
+app = Flask(__name__)
+UPLOAD_DIR = "uploads"
+OUTPUT_ROOT = "output"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs(OUTPUT_ROOT, exist_ok=True)
+
+FORM_HTML = """
+<h1>Convert PDF to Accessible HTML</h1>
+<form action="/convert" method="post" enctype="multipart/form-data">
+  <label for="pdf">Choose PDF</label>
+  <input id="pdf" name="pdf" type="file" accept="application/pdf" required />
+  <button type="submit">Convert</button>
+</form>
+"""
+
+@app.route("/")
+def form():
+    return render_template_string(FORM_HTML)
+
+@app.route("/convert", methods=["POST"])
+def convert_route():
+    if "pdf" not in request.files or request.files["pdf"].filename == "":
+        return "No file uploaded", 400
+    f = request.files["pdf"]
+
+    job_id = str(uuid.uuid4())[:8]
+    in_path = os.path.join(UPLOAD_DIR, f"{job_id}.pdf")
+    out_dir = os.path.join(OUTPUT_ROOT, job_id)
+    os.makedirs(out_dir, exist_ok=True)
+    out_html = os.path.join(out_dir, f"{job_id}.html")
+
+    f.save(in_path)
+
+    try:
+        convert_pdf_to_accessible_html(in_path, out_dir, out_html)
+    except Exception as e:
+        return f"<h2>Conversion error</h2><pre>{e}</pre>", 500
+
+    with open(out_html, "r", encoding="utf-8") as fp:
+        html_content = fp.read()
+
+    page = f"""
+    <h2>Copy this HTML code and paste it into Brightspace</h2>
+    <textarea rows="25" cols="120" style="width:100%;font-family:monospace;">{html_content}</textarea>
+    <p><a href="/">Convert another PDF</a></p>
+    """
+    return render_template_string(page)
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5055)

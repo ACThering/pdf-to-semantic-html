@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>PDF to Accessible HTML</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="/static/style.css" rel="stylesheet" />
+</head>
+<body>
+  <main role="main" class="container">
+    <h1>Convert PDF to Accessible HTML</h1>
+    <form action="/convert" method="post" enctype="multipart/form-data" aria-label="Upload PDF form">
+      <label for="pdf">Choose PDF</label>
+      <input id="pdf" name="pdf" type="file" accept="application/pdf" required />
+      <button type="submit">Convert</button>
+    </form>
+    <p class="hint">This favors semantic HTML. Review headings, alt text, and tables after conversion.</p>
+  </main>
+</body>
+</html>

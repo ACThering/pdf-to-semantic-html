@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Conversion Result</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="/static/style.css" rel="stylesheet" />
+</head>
+<body>
+  <main role="main" class="container">
+    <h1>Done!</h1>
+    <p>Preview or download your HTML below. Review “TODO” items for full WCAG conformance.</p>
+    <p><a href="{{ html_url }}" target="_blank" rel="noopener">Open converted HTML</a></p>
+
+    <details>
+      <summary>Conversion manifest</summary>
+      <pre>{{ manifest | tojson(indent=2) }}</pre>
+    </details>
+
+    <p><a href="/">Convert another PDF</a></p>
+  </main>
+</body>
+</html>
